@@ -42,7 +42,7 @@ jobs:
       - name: Dump database
         env:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
-          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY || secrets.UPABASE_SERVICE_ROLE_KEY }}
         run: npm run backup
       - name: Commit backup to the repository
         run: |
@@ -77,7 +77,7 @@ jobs:
       - name: Restore the backup into Supabase
         env:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
-          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY || secrets.UPABASE_SERVICE_ROLE_KEY }}
           CONFIRM_RESTORE: ${{ inputs.confirm }}
           BACKUP_DATE: ${{ inputs.backup_date }}
         run: npm run restore
