@@ -1,0 +1,24 @@
+name: Keep database alive
+
+# Free-plan Supabase pauses after 7 days with no traffic. Ping twice a week so
+# the gap never reaches that. Also runnable by hand from the Actions tab.
+on:
+  schedule:
+    # Monday and Thursday, 06:00 UTC (11:30 IST)
+    - cron: "0 6 * * 1,4"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Ping the database
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: node scripts/keep-alive.mjs
