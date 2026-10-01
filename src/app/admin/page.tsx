@@ -23,7 +23,7 @@ export default async function AdminHome() {
   if (!user) return <LoginForm />;
 
   const counts = await Promise.all(
-    ["research_items", "publications", "awards", "blogs"].map(async (table) => {
+    ["research_items", "publications", "awards", "resources", "gallery_items"].map(async (table) => {
       const { count } = await supabase!.from(table).select("*", { count: "exact", head: true });
       return count ?? 0;
     })
@@ -32,14 +32,18 @@ export default async function AdminHome() {
   const cards = [
     ["Research", counts[0], "/admin/research"],
     ["Publications", counts[1], "/admin/publications"],
-    ["Awards", counts[2], "/admin/awards"],
-    ["Blogs", counts[3], "/admin/blogs"],
+    ["Awards & rewards", counts[2], "/admin/awards"],
+    ["Resources", counts[3], "/admin/resources"],
+    ["Gallery", counts[4], "/admin/gallery"],
   ] as const;
 
   return (
     <div className="admin-page">
       <h1>Content</h1>
-      <p>Add or edit research, publications, awards, and blog posts. Published items appear on the website.</p>
+      <p>
+        Add or edit research, publications, awards, rewards, resources, and gallery photos.
+        Published items appear on the website.
+      </p>
       <div className="admin-cards">
         {cards.map(([label, count, href]) => (
           <Link key={href} href={href} className="admin-card">

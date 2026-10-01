@@ -130,34 +130,114 @@ export async function deleteAward(formData: FormData) {
   redirect("/admin/awards");
 }
 
-export async function saveBlog(formData: FormData) {
+export async function saveResource(formData: FormData) {
   const supabase = await db();
   const id = text(formData, "id");
-  const title = text(formData, "title");
   const row = {
-    slug: text(formData, "slug") || slugify(title),
-    title,
-    excerpt: text(formData, "excerpt"),
+    title: text(formData, "title"),
+    summary: text(formData, "summary"),
     body: text(formData, "body"),
-    cover_url: text(formData, "cover_url") || null,
+    url: text(formData, "url") || null,
+    link_label: text(formData, "link_label"),
+    citation: text(formData, "citation"),
+    sort_order: Number(text(formData, "sort_order") || "1"),
     published: flag(formData, "published"),
-    published_at: text(formData, "published_at") || new Date().toISOString().slice(0, 10),
   };
   const query = id
-    ? supabase.from("blogs").update(row).eq("id", id)
-    : supabase.from("blogs").insert(row);
+    ? supabase.from("resources").update(row).eq("id", id)
+    : supabase.from("resources").insert(row);
   const { error } = await query;
   if (error) throw new Error(error.message);
-  refresh(["/blog"]);
-  redirect("/admin/blogs");
+  refresh(["/resources"]);
+  redirect("/admin/resources");
 }
 
-export async function deleteBlog(formData: FormData) {
+export async function deleteResource(formData: FormData) {
   const supabase = await db();
-  const { error } = await supabase.from("blogs").delete().eq("id", text(formData, "id"));
+  const { error } = await supabase.from("resources").delete().eq("id", text(formData, "id"));
   if (error) throw new Error(error.message);
-  refresh(["/blog"]);
-  redirect("/admin/blogs");
+  refresh(["/resources"]);
+  redirect("/admin/resources");
+}
+
+export async function saveGalleryItem(formData: FormData) {
+  const supabase = await db();
+  const id = text(formData, "id");
+  const image_url = text(formData, "image_url");
+  if (!image_url) throw new Error("An image is required.");
+  const row = {
+    image_url,
+    alt: text(formData, "alt"),
+    caption: text(formData, "caption"),
+    sort_order: Number(text(formData, "sort_order") || "1"),
+    published: flag(formData, "published"),
+  };
+  const query = id
+    ? supabase.from("gallery_items").update(row).eq("id", id)
+    : supabase.from("gallery_items").insert(row);
+  const { error } = await query;
+  if (error) throw new Error(error.message);
+  refresh(["/gallery"]);
+  redirect("/admin/gallery");
+}
+
+export async function deleteGalleryItem(formData: FormData) {
+  const supabase = await db();
+  const { error } = await supabase.from("gallery_items").delete().eq("id", text(formData, "id"));
+  if (error) throw new Error(error.message);
+  refresh(["/gallery"]);
+  redirect("/admin/gallery");
+}
+
+export async function importSeedResources() {
+  const supabase = await db();
+  const { count, error: countError } = await supabase
+    .from("resources")
+    .select("*", { count: "exact", head: true });
+  if (countError) throw new Error(countError.message);
+  if ((count ?? 0) > 0) {
+    redirect("/admin/resources");
+  }
+
+  const { seedResources } = await import("@/lib/seed");
+  const rows = seedResources.map(({ title, summary, body, url, link_label, citation, sort_order, published }) => ({
+    title,
+    summary,
+    body,
+    url,
+    link_label,
+    citation,
+    sort_order,
+    published,
+  }));
+  const { error } = await supabase.from("resources").insert(rows);
+  if (error) throw new Error(error.message);
+  refresh(["/resources", "/admin"]);
+  redirect("/admin/resources");
+}
+
+export async function importSeedGallery() {
+  const supabase = await db();
+  const { count, error: countError } = await supabase
+    .from("gallery_items")
+    .select("*", { count: "exact", head: true });
+  if (countError) throw new Error(countError.message);
+  if ((count ?? 0) > 0) {
+    redirect("/admin/gallery");
+  }
+
+  const { seedGallery } = await import("@/lib/seed");
+  const rows = seedGallery.map(({ image_url, alt, caption, sort_order, published }) => ({
+    image_url,
+    alt,
+    caption,
+    sort_order,
+    published,
+  }));
+  const { error } = await supabase.from("gallery_items").insert(rows);
+  if (error) throw new Error(error.message);
+  refresh(["/gallery", "/admin"]);
+  redirect("/admin/gallery");
 }
 
 export async function signOut() {

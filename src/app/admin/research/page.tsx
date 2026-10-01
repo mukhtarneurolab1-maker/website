@@ -21,6 +21,7 @@ export default async function ResearchAdmin() {
           <li key={row.id}>
             <Link href={`/admin/research/${row.id}`}>{row.title}</Link>
             <span>{row.published ? "Published" : "Draft"}</span>
+            <Link className="admin-edit" href={`/admin/research/${row.id}`}>Edit</Link>
             <DeleteRow id={row.id} action={deleteActions.research} />
           </li>
         ))}

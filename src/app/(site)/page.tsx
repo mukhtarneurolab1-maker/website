@@ -1,6 +1,7 @@
 import { HomeFeatured } from "@/components/HomeFeatured";
 import { HomeResearch } from "@/components/HomeResearch";
 import { LabParticles } from "@/components/LabParticles";
+import { site } from "@/lib/site";
 
 export default function HomePage() {
   return (
@@ -8,7 +9,7 @@ export default function HomePage() {
 {/* 1. WHO */}
     <section className="hero lab-entry">
       <div className="hero-photo" aria-hidden="true">
-        <img src="/images/lab/gfp-neurons.jpg" alt="" className="hero-photo-img" width="1600" height="1376" />
+        <img src="/images/lab/picture-8.jpg" alt="" className="hero-photo-img" width="1600" height="1200" />
         <div className="hero-photo-tint"></div>
         <div className="hero-photo-vignette"></div>
       </div>
@@ -29,11 +30,11 @@ export default function HomePage() {
         <div className="scope-eye" aria-hidden="true">
           <div className="scope-eye-ring"></div>
           <div className="scope-eye-glass">
-            <img src="/images/lab/neuron-confocal.jpg" alt="" />
+            <img src="/images/lab/gw17-neurons.jpg" alt="" />
           </div>
           <div className="scope-hud">
-            <span>Confocal</span>
-            <span>40×</span>
+            <span>GW17</span>
+            <span>Neurons</span>
             <span className="scope-live">● Live field</span>
           </div>
         </div>
@@ -58,7 +59,7 @@ export default function HomePage() {
           </div>
           <div className="intro-text">
             <p>Dr. Tanzila Mukhtar investigates human brain development at the molecular, cellular and circuit levels, and how these programs are rewritten in neurodevelopmental and neuropsychiatric disease.</p>
-            <p>Her laboratory integrates patient-derived iPSCs, cerebral organoids, single-cell and spatial genomics, and RNA biology to ask questions that animal models alone cannot fully answer.</p>
+            <p>Her laboratory integrates patient-derived iPSCs, cerebral organoids, single-cell and spatial genomics, RNA biology and multimodal approaches to ask questions that animal models alone cannot fully answer.</p>
             <div className="intro-chips">
               <span>iPSC organoids</span>
               <span>RNA isoforms</span>
@@ -156,7 +157,7 @@ export default function HomePage() {
     {/* 7. VISION */}
     <section className="quote-banner quote-banner--photo">
       <div className="quote-field" aria-hidden="true">
-        <img src="/images/lab/gfp-neurons.jpg" alt="" />
+        <img src="/images/lab/picture-7.jpg" alt="" />
       </div>
       <div className="wrap">
         <blockquote>
@@ -181,8 +182,7 @@ export default function HomePage() {
           <div className="connect-links">
             <div className="cl-group">
               <p className="cl-label">Email</p>
-              <a href="mailto:mukhtarneurolab@gmail.com">mukhtarneurolab@gmail.com</a>
-              <a href="mailto:mukhtarneurolab@gmail.com">mukhtarneurolab@gmail.com</a>
+              <a href={`mailto:${site.emailPrimary}`}>{site.emailPrimary}</a>
             </div>
             <div className="cl-group">
               <p className="cl-label">Profiles</p>

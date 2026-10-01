@@ -4,7 +4,7 @@
  *   CONFIRM_RESTORE=restore npm run restore
  *   CONFIRM_RESTORE=restore BACKUP_DATE=2026-10-01 npm run restore
  *
- * Replaces research, publications, awards, and blogs with that snapshot,
+ * Replaces research, publications, awards, resources, and gallery with that snapshot,
  * then uploads the saved media files again.
  */
 
@@ -18,7 +18,7 @@ import { loadLocalEnv, supabaseUrl } from "./load-env.mjs";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 loadLocalEnv(root);
 
-const TABLES = ["research_items", "publications", "awards", "blogs"];
+const TABLES = ["research_items", "publications", "awards", "resources", "gallery_items"];
 
 function latestBackupDate() {
   const dir = path.join(root, "backups");

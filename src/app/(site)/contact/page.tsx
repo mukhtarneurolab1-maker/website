@@ -32,9 +32,6 @@ export default function ContactPage() {
                 <a href={`mailto:${site.emailPrimary}`} className="contact-link">
                   {site.emailPrimary}
                 </a>
-                <a href={`mailto:${site.emailSecondary}`} className="contact-link">
-                  {site.emailSecondary}
-                </a>
               </div>
               <div className="contact-block">
                 <p className="cl-label">Academic Profiles</p>

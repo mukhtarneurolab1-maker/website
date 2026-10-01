@@ -28,9 +28,7 @@ export function SiteFooter() {
         <p>CIRI, University of Kashmir · Department of Neurosurgery, UCSF</p>
       </div>
       <p className="image-credit">
-        Atmosphere imagery: NIH public-domain confocal neuron; GFP cortical neurons
-        (CC BY-SA 4.0, ManuelSchottdorf); multicolor fluorescence cell via Wikimedia
-        Commons.
+        Microscopy images from the Mukhtar Laboratory.
       </p>
       <div className="footer-credit-row">
         <p className="footer-credit">
@@ -38,7 +36,10 @@ export function SiteFooter() {
           <span className="footer-heart" aria-hidden="true">
             ♥
           </span>{" "}
-          by <strong>Altveen Technologies</strong>
+          by{" "}
+          <a href="https://altveentechnologies.com" target="_blank" rel="noopener noreferrer">
+            <strong>Altveen Technologies</strong>
+          </a>
         </p>
       </div>
     </footer>

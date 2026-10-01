@@ -40,13 +40,23 @@ export type Award = {
   published: boolean;
 };
 
-export type BlogPost = {
+export type Resource = {
   id: string;
-  slug: string;
   title: string;
-  excerpt: string;
+  summary: string;
   body: string;
-  cover_url: string | null;
+  url: string | null;
+  link_label: string;
+  citation: string;
+  sort_order: number;
   published: boolean;
-  published_at: string;
+};
+
+export type GalleryItem = {
+  id: string;
+  image_url: string;
+  alt: string;
+  caption: string;
+  sort_order: number;
+  published: boolean;
 };

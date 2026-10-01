@@ -21,6 +21,7 @@ export default async function PublicationsAdmin() {
           <li key={row.id}>
             <Link href={`/admin/publications/${row.id}`}>{row.title}</Link>
             <span>{row.category}</span>
+            <Link className="admin-edit" href={`/admin/publications/${row.id}`}>Edit</Link>
             <DeleteRow id={row.id} action={deleteActions.publications} />
           </li>
         ))}

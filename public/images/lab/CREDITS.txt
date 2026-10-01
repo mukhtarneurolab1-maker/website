@@ -1,44 +1,16 @@
-Images used for atmospheric laboratory visuals and research themes:
+Laboratory microscopy supplied by Dr. Tanzila Mukhtar.
 
-1. neuron-confocal.jpg / theme-disease.jpg
-   Confocal image of spiny neuron
-   Source: National Institutes of Health (NIH) / Margaret I. Davis
-   License: Public Domain (U.S. Government work)
-
-2. gfp-neurons.jpg / theme-development.jpg
-   GFP Neurons — rat cortical neurons expressing GFP
-   Author: ManuelSchottdorf
-   License: CC BY-SA 4.0
-   https://commons.wikimedia.org/wiki/File:GFP_Neurons.png
-
-3. fluorescence-cell.jpg / theme-spatial.jpg
-   Multicolor fluorescence image of a living HeLa cell
-   License: as listed on Wikimedia Commons
-   https://commons.wikimedia.org/wiki/File:Multicolor_fluorescence_image_of_a_living_HeLa_cell.jpg
-
-4. theme-organoids.jpg
-   Human cerebral organoids in culture flask
-   Source: NIAID / NIH (via Wikimedia Commons)
-   License: CC BY 2.0
-   https://commons.wikimedia.org/wiki/File:Human_Cerebral_Organoids_(53728295930).jpg
-
-5. theme-rna.jpg
-   RNA splicing reaction diagram
-   License: as listed on Wikimedia Commons (CC-compatible scientific diagram)
-
-6. theme-brain.jpg
-   Human brain illustration (NIH)
-   License: Public Domain / Wikimedia Commons listing
-
-Publication thumbnails (assets/images/lab/pubs/):
-- pub-radial-glia.jpg — GliaRadial Interneurona (Wikimedia Commons)
-- pub-radial-dev.jpg — Radial glia supporting newborn neurons (Wikimedia Commons)
-- pub-astrocyte.jpg — Astrocyte (Wikimedia Commons)
-- pub-tf-dna.jpg — Transcription factor Zif268 binding DNA (Wikimedia Commons)
-- pub-pc12.jpg — Multicolor fluorescence PC-12 cell (Wikimedia Commons)
-- pub-scrna.jpg — Single-cell RNA-sequencing analysis figure (Wikimedia Commons)
-- pub-organoid2.jpg — Human Brain Organoid (Wikimedia Commons)
-- pub-neocortex.jpg — Neocortex diagram (Wikimedia Commons)
-- pub-interneuron-glia.jpg — Interneuron–radial glial interactions (Wikimedia Commons)
-- pub-genome-tf.jpg — Genome-wide transcription factor location analysis (Wikimedia Commons)
-- pub-sars.jpg — SARS-CoV-2 visualization (Wikimedia Commons / CDC-style public domain listing)
+primary-tissue.jpg          Primary cortical tissue
+primary-cells.jpg           Primary cells in culture
+organoid-week-5.jpg         Week 5 cortical organoid
+organoid-week-10.jpg        Week 10 cortical organoid
+fused-organoids.jpg         Fused organoids
+astrocytes.jpg              Astrocytes
+sars-primary-tissue.jpg     SARS-CoV-2 infected primary tissue
+gw17-neurons.jpg            GW17 cultured neurons
+picture-5.jpg               Organoid spheroids (phase contrast)
+picture-6.jpg               Fluorescent cortical tissue
+picture-7.jpg               Multicolor neural cluster
+picture-8.jpg               Developing brain section
+picture-9.jpg               Cortical neurons and radial progenitors
+picture-10.jpg              Astrocytes (GFAP / CD44 / Vimentin)

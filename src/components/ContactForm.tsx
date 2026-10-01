@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useMemo, useState } from "react";
-import { site } from "@/lib/site";
+import { submitContact } from "@/app/(site)/contact/actions";
 
 type FieldState = "is-valid" | "is-invalid" | null;
 
@@ -29,7 +29,6 @@ export function ContactForm() {
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
-  const [mailtoHref, setMailtoHref] = useState("#");
 
   const states = useMemo(() => {
     const nameState: FieldState = !touched.name && !name
@@ -58,15 +57,7 @@ export function ContactForm() {
     return { nameState, emailState, affiliationState, subjectState, messageState };
   }, [name, email, affiliation, subject, message, touched]);
 
-  const buildMailto = () => {
-    const body =
-      `Hello Dr. Mukhtar,\n\n${message.trim()}\n\n-\n${name.trim()}` +
-      (affiliation.trim() ? `\n${affiliation.trim()}` : "") +
-      `\n${email.trim()}`;
-    return `mailto:${site.emailPrimary}?subject=${encodeURIComponent(subject.trim())}&body=${encodeURIComponent(body)}`;
-  };
-
-  const onSubmit = (event: FormEvent) => {
+  const onSubmit = async (event: FormEvent) => {
     event.preventDefault();
     setTouched({ name: true, email: true, subject: true, message: true });
     setFormError(null);
@@ -82,14 +73,14 @@ export function ContactForm() {
       return;
     }
 
-    const href = buildMailto();
-    setMailtoHref(href);
     setLoading(true);
-    window.setTimeout(() => {
-      window.location.href = href;
-      setSubmitted(true);
-      setLoading(false);
-    }, 450);
+    const result = await submitContact({ name, email, affiliation, subject, message });
+    setLoading(false);
+    if (!result.ok) {
+      setFormError(result.error);
+      return;
+    }
+    setSubmitted(true);
   };
 
   const reset = () => {
@@ -118,12 +109,9 @@ export function ContactForm() {
             />
           </svg>
         </div>
-        <h3>Almost there</h3>
-        <p>Your email draft is ready. If it didn’t open automatically, use the button below.</p>
+        <h3>Message sent</h3>
+        <p>Your note was delivered to the lab. A reply will come to the email address you entered.</p>
         <div className="form-success-actions">
-          <a className="btn btn-accent" href={mailtoHref}>
-            Open email draft
-          </a>
           <button type="button" className="btn btn-ghost" onClick={reset}>
             Write another message
           </button>
@@ -314,7 +302,7 @@ export function ContactForm() {
           <span className="btn-label">Send message</span>
           <span className="btn-spinner" aria-hidden="true" />
         </button>
-        <p className="form-hint">Opens your email app with the message ready to send.</p>
+        <p className="form-hint">Sends your message to the lab inbox.</p>
       </div>
 
       {formError && (

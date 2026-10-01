@@ -1,6 +1,6 @@
 import { getServerSupabase } from "@/lib/supabase/server";
-import { seedAwards, seedBlogs, seedPublications, seedResearch } from "@/lib/seed";
-import type { Award, BlogPost, Publication, ResearchItem } from "@/lib/types";
+import { seedAwards, seedGallery, seedPublications, seedResearch, seedResources } from "@/lib/seed";
+import type { Award, GalleryItem, Publication, ResearchItem, Resource } from "@/lib/types";
 
 async function publishedOrSeed<T>(table: string, seed: T[], order: string): Promise<T[]> {
   const supabase = await getServerSupabase();
@@ -16,14 +16,41 @@ async function publishedOrSeed<T>(table: string, seed: T[], order: string): Prom
   return data as T[];
 }
 
+const researchImages: Record<string, { url: string; caption: string }> = {
+  "human-brain-development": { url: "/images/lab/picture-9.jpg", caption: "Cortical neurons and radial progenitors" },
+  "rna-biology": { url: "/images/lab/primary-cells.jpg", caption: "Primary cells in culture" },
+  organoids: { url: "/images/lab/organoid-week-10.jpg", caption: "Week 10 cortical organoid" },
+  "single-cell": { url: "/images/lab/picture-6.jpg", caption: "Fluorescent cortical tissue" },
+  disease: { url: "/images/lab/picture-10.jpg", caption: "Astrocytes" },
+  "precision-psychiatry": { url: "/images/lab/fused-organoids.jpg", caption: "Fused organoids" },
+};
+
 export async function getResearch(): Promise<ResearchItem[]> {
   const rows = await publishedOrSeed<ResearchItem>("research_items", seedResearch, "sort_order");
-  return [...rows].sort((a, b) => a.sort_order - b.sort_order);
+  return [...rows]
+    .map((row) => {
+      const image = researchImages[row.slug];
+      return image ? { ...row, image_url: image.url, image_caption: image.caption } : row;
+    })
+    .sort((a, b) => a.sort_order - b.sort_order);
 }
 
 export async function getPublications(): Promise<Publication[]> {
   const rows = await publishedOrSeed<Publication>("publications", seedPublications, "sort_order");
-  return rows;
+  if (rows === seedPublications) return rows;
+
+  const byTitle = new Set(rows.map((row) => row.title));
+  const withLinks = rows.map((row) => {
+    const seeded = seedPublications.find((item) => item.title === row.title);
+    if (!seeded) return row;
+    return {
+      ...row,
+      image_url: seeded.image_url,
+      doi_url: row.doi_url || seeded.doi_url,
+    };
+  });
+  const added = seedPublications.filter((item) => !byTitle.has(item.title));
+  return [...withLinks, ...added];
 }
 
 export async function getAwards(): Promise<Award[]> {
@@ -31,21 +58,12 @@ export async function getAwards(): Promise<Award[]> {
   return rows;
 }
 
-export async function getBlogs(): Promise<BlogPost[]> {
-  const supabase = await getServerSupabase();
-  if (!supabase) return seedBlogs;
-  const { data, error } = await supabase
-    .from("blogs")
-    .select("*")
-    .eq("published", true)
-    .order("published_at", { ascending: false });
-  if (error || !data) return seedBlogs;
-  return data as BlogPost[];
+export async function getResources(): Promise<Resource[]> {
+  return publishedOrSeed<Resource>("resources", seedResources, "sort_order");
 }
 
-export async function getBlog(slug: string): Promise<BlogPost | null> {
-  const posts = await getBlogs();
-  return posts.find((post) => post.slug === slug) ?? null;
+export async function getGallery(): Promise<GalleryItem[]> {
+  return publishedOrSeed<GalleryItem>("gallery_items", seedGallery, "sort_order");
 }
 
 export function publicationsByCategory(items: Publication[], category: string) {

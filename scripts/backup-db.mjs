@@ -1,5 +1,5 @@
 /**
- * Snapshot research, publications, awards, blogs, and the media bucket.
+ * Snapshot research, publications, awards, resources, gallery, and the media bucket.
  *
  *   npm run backup
  *
@@ -16,7 +16,7 @@ import { loadLocalEnv, supabaseUrl } from "./load-env.mjs";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 loadLocalEnv(root);
 
-const TABLES = ["research_items", "publications", "awards", "blogs"];
+const TABLES = ["research_items", "publications", "awards", "resources", "gallery_items"];
 
 async function fetchAll(supabase, table) {
   const pageSize = 1000;

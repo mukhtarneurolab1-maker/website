@@ -7,8 +7,9 @@ const links = [
   { href: "/admin", label: "Overview" },
   { href: "/admin/research", label: "Research" },
   { href: "/admin/publications", label: "Publications" },
-  { href: "/admin/awards", label: "Awards" },
-  { href: "/admin/blogs", label: "Blogs" },
+  { href: "/admin/awards", label: "Awards & rewards" },
+  { href: "/admin/resources", label: "Resources" },
+  { href: "/admin/gallery", label: "Gallery" },
 ];
 
 export function AdminNav() {

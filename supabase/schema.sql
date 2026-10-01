@@ -49,15 +49,27 @@ create table if not exists public.awards (
   updated_at    timestamptz not null default now()
 );
 
-create table if not exists public.blogs (
+create table if not exists public.resources (
   id            uuid primary key default gen_random_uuid(),
-  slug          text unique not null,
   title         text not null,
-  excerpt       text not null default '',
+  summary       text not null default '',
   body          text not null default '',
-  cover_url     text,
-  published     boolean not null default false,
-  published_at  date not null default current_date,
+  url           text,
+  link_label    text not null default '',
+  citation      text not null default '',
+  sort_order    integer not null default 1,
+  published     boolean not null default true,
+  created_at    timestamptz not null default now(),
+  updated_at    timestamptz not null default now()
+);
+
+create table if not exists public.gallery_items (
+  id            uuid primary key default gen_random_uuid(),
+  image_url     text not null,
+  alt           text not null default '',
+  caption       text not null default '',
+  sort_order    integer not null default 1,
+  published     boolean not null default true,
   created_at    timestamptz not null default now(),
   updated_at    timestamptz not null default now()
 );
@@ -65,7 +77,8 @@ create table if not exists public.blogs (
 create index if not exists research_sort_idx on public.research_items (published, sort_order);
 create index if not exists publications_sort_idx on public.publications (published, category, sort_order);
 create index if not exists awards_sort_idx on public.awards (published, category, sort_order);
-create index if not exists blogs_published_idx on public.blogs (published, published_at desc);
+create index if not exists resources_sort_idx on public.resources (published, sort_order);
+create index if not exists gallery_sort_idx on public.gallery_items (published, sort_order);
 
 create or replace function public.touch_updated_at()
 returns trigger language plpgsql as $$
@@ -87,14 +100,19 @@ drop trigger if exists awards_touch on public.awards;
 create trigger awards_touch before update on public.awards
   for each row execute function public.touch_updated_at();
 
-drop trigger if exists blogs_touch on public.blogs;
-create trigger blogs_touch before update on public.blogs
+drop trigger if exists resources_touch on public.resources;
+create trigger resources_touch before update on public.resources
+  for each row execute function public.touch_updated_at();
+
+drop trigger if exists gallery_touch on public.gallery_items;
+create trigger gallery_touch before update on public.gallery_items
   for each row execute function public.touch_updated_at();
 
 alter table public.research_items enable row level security;
 alter table public.publications enable row level security;
 alter table public.awards enable row level security;
-alter table public.blogs enable row level security;
+alter table public.resources enable row level security;
+alter table public.gallery_items enable row level security;
 
 drop policy if exists "research is public when published" on public.research_items;
 create policy "research is public when published"
@@ -126,14 +144,24 @@ create policy "staff manage awards"
   on public.awards for all to authenticated
   using (true) with check (true);
 
-drop policy if exists "blogs are public when published" on public.blogs;
-create policy "blogs are public when published"
-  on public.blogs for select to anon, authenticated
+drop policy if exists "resources are public when published" on public.resources;
+create policy "resources are public when published"
+  on public.resources for select to anon, authenticated
   using (published or auth.role() = 'authenticated');
 
-drop policy if exists "staff manage blogs" on public.blogs;
-create policy "staff manage blogs"
-  on public.blogs for all to authenticated
+drop policy if exists "staff manage resources" on public.resources;
+create policy "staff manage resources"
+  on public.resources for all to authenticated
+  using (true) with check (true);
+
+drop policy if exists "gallery is public when published" on public.gallery_items;
+create policy "gallery is public when published"
+  on public.gallery_items for select to anon, authenticated
+  using (published or auth.role() = 'authenticated');
+
+drop policy if exists "staff manage gallery" on public.gallery_items;
+create policy "staff manage gallery"
+  on public.gallery_items for all to authenticated
   using (true) with check (true);
 
 insert into storage.buckets (id, name, public)
