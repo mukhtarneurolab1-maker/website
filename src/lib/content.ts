@@ -17,10 +17,10 @@ async function publishedOrSeed<T>(table: string, seed: T[], order: string): Prom
 }
 
 const researchImages: Record<string, { url: string; caption: string }> = {
-  "human-brain-development": { url: "/images/lab/picture-9.jpg", caption: "Cortical neurons and radial progenitors" },
+  "human-brain-development": { url: "/images/lab/picture-9.jpg", caption: "Radial progenitors and cortical neurons" },
   "rna-biology": { url: "/images/lab/primary-cells.jpg", caption: "Primary cells in culture" },
   organoids: { url: "/images/lab/organoid-week-10.jpg", caption: "Week 10 cortical organoid" },
-  "single-cell": { url: "/images/lab/picture-6.jpg", caption: "Fluorescent cortical tissue" },
+  "single-cell": { url: "/images/lab/picture-6.jpg", caption: "Disease Organoid" },
   disease: { url: "/images/lab/picture-10.jpg", caption: "Astrocytes" },
   "precision-psychiatry": { url: "/images/lab/fused-organoids.jpg", caption: "Fused organoids" },
 };

@@ -30,11 +30,11 @@ export default function HomePage() {
         <div className="scope-eye" aria-hidden="true">
           <div className="scope-eye-ring"></div>
           <div className="scope-eye-glass">
-            <img src="/images/lab/gw17-neurons.jpg" alt="" />
+            <img src="/images/lab/astrocytes.jpg" alt="" />
           </div>
           <div className="scope-hud">
-            <span>GW17</span>
-            <span>Neurons</span>
+            <span>Primary</span>
+            <span>Astrocytes</span>
             <span className="scope-live">● Live field</span>
           </div>
         </div>

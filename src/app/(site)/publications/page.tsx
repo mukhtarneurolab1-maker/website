@@ -9,9 +9,7 @@ function PubList({ items, chapter = false }: { items: Publication[]; chapter?: b
     <ol className="pub-list">
       {items.map((item) => (
         <li className="pub-item" key={item.id}>
-          <div className="pub-thumb" aria-hidden="true">
-            {item.image_url ? <img src={item.image_url} alt="" /> : null}
-          </div>
+          <div className="pub-thumb" aria-hidden="true" />
           <div className="pub-body">
             <p className="pub-authors">{item.authors}</p>
             <p className="pub-title">{item.title}</p>
