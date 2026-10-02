@@ -30,7 +30,7 @@ export default function HomePage() {
         <div className="scope-eye" aria-hidden="true">
           <div className="scope-eye-ring"></div>
           <div className="scope-eye-glass">
-            <img src="/images/lab/astrocytes.jpg" alt="" />
+            <img src="/images/lab/gw17-neurons.jpg" alt="" />
           </div>
           <div className="scope-hud">
             <span>Primary</span>
