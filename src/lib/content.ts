@@ -25,13 +25,25 @@ const researchImages: Record<string, { url: string; caption: string }> = {
   "precision-psychiatry": { url: "/images/lab/fused-organoids.jpg", caption: "Fused organoids" },
 };
 
+/** Prefer current lab image paths so admin previews are not broken after stock images were removed. */
+export function withCurrentResearchImage<T extends { slug?: string; image_url?: string | null; image_caption?: string }>(
+  row: T,
+): T {
+  const image = row.slug ? researchImages[row.slug] : undefined;
+  if (!image) return row;
+  return { ...row, image_url: image.url, image_caption: image.caption };
+}
+
+export function withCurrentPublicationImage<T extends { title?: string; image_url?: string | null }>(row: T): T {
+  const seeded = row.title ? seedPublications.find((item) => item.title === row.title) : undefined;
+  if (!seeded?.image_url) return row;
+  return { ...row, image_url: seeded.image_url };
+}
+
 export async function getResearch(): Promise<ResearchItem[]> {
   const rows = await publishedOrSeed<ResearchItem>("research_items", seedResearch, "sort_order");
   return [...rows]
-    .map((row) => {
-      const image = researchImages[row.slug];
-      return image ? { ...row, image_url: image.url, image_caption: image.caption } : row;
-    })
+    .map((row) => withCurrentResearchImage(row))
     .sort((a, b) => a.sort_order - b.sort_order);
 }
 
