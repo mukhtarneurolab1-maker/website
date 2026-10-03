@@ -7,10 +7,12 @@ export function ImageUpload({
   name,
   label,
   defaultValue = "",
+  required = false,
 }: {
   name: string;
   label: string;
   defaultValue?: string;
+  required?: boolean;
 }) {
   const [url, setUrl] = useState(defaultValue);
   const [busy, setBusy] = useState(false);
@@ -52,11 +54,16 @@ export function ImageUpload({
       <input id={`${name}-file`} type="file" accept="image/*" onChange={onFile} disabled={busy} />
       <input
         className="admin-url"
-        type="url"
-        placeholder="Or paste an image URL"
+        type="text"
+        inputMode="url"
+        placeholder="/images/... or https://..."
         value={url}
+        required={required}
         onChange={(event) => setUrl(event.target.value)}
       />
+      <p className="admin-hint">
+        Leave this as-is to keep the current image. Upload a new file or paste a path only if you want to replace it.
+      </p>
       {busy ? <p className="admin-hint">Uploading…</p> : null}
       {error ? <p className="admin-error">{error}</p> : null}
       {url ? <img className="admin-preview" src={url} alt="" /> : null}

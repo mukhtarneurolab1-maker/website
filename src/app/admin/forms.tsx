@@ -123,7 +123,7 @@ export function GalleryForm({ item }: { item?: Partial<GalleryItem> }) {
   return (
     <form className="admin-form" action={saveGalleryItem}>
       {item?.id ? <input type="hidden" name="id" value={item.id} /> : null}
-      <ImageUpload name="image_url" label="Photo" defaultValue={item?.image_url || ""} />
+      <ImageUpload name="image_url" label="Photo" defaultValue={item?.image_url || ""} required={!item?.image_url} />
       <label>Caption<input name="caption" defaultValue={item?.caption || ""} /></label>
       <label>Alt text<input name="alt" defaultValue={item?.alt || ""} placeholder="Describe the photo" /></label>
       <label>Order<input name="sort_order" type="number" defaultValue={item?.sort_order ?? 1} /></label>

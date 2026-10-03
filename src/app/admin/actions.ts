@@ -164,7 +164,29 @@ export async function saveGalleryItem(formData: FormData) {
   const supabase = await db();
   const id = text(formData, "id");
   const image_url = text(formData, "image_url");
-  if (!image_url) throw new Error("An image is required.");
+  if (!image_url) {
+    if (id) {
+      // Keep the existing photo when the editor only changes caption/text.
+      const { data: existing, error: existingError } = await supabase
+        .from("gallery_items")
+        .select("image_url")
+        .eq("id", id)
+        .maybeSingle();
+      if (existingError) throw new Error(existingError.message);
+      if (!existing?.image_url) throw new Error("An image is required.");
+      const row = {
+        alt: text(formData, "alt"),
+        caption: text(formData, "caption"),
+        sort_order: Number(text(formData, "sort_order") || "1"),
+        published: flag(formData, "published"),
+      };
+      const { error } = await supabase.from("gallery_items").update(row).eq("id", id);
+      if (error) throw new Error(error.message);
+      refresh(["/gallery"]);
+      redirect("/admin/gallery");
+    }
+    throw new Error("An image is required.");
+  }
   const row = {
     image_url,
     alt: text(formData, "alt"),
