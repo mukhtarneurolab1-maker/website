@@ -32,20 +32,22 @@ const SELECTOR = [
   ".scope-frame",
 ].join(", ");
 
+function inOrNearView(el: HTMLElement) {
+  const rect = el.getBoundingClientRect();
+  const slack = window.innerHeight * 0.35;
+  return rect.top < window.innerHeight + slack && rect.bottom > -slack;
+}
+
 export function ScrollReveal() {
   useEffect(() => {
     const targets = Array.from(document.querySelectorAll<HTMLElement>(SELECTOR));
     if (!targets.length) return;
 
-    if (!("IntersectionObserver" in window)) {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced || !("IntersectionObserver" in window)) {
       targets.forEach((el) => el.classList.add("is-visible"));
       return;
     }
-
-    targets.forEach((el, i) => {
-      el.classList.add("reveal");
-      el.style.transitionDelay = `${(i % 6) * 80}ms`;
-    });
 
     const obs = new IntersectionObserver(
       (entries) => {
@@ -56,10 +58,18 @@ export function ScrollReveal() {
           }
         });
       },
-      { rootMargin: "0px 0px -8% 0px", threshold: 0.06 }
+      { rootMargin: "280px 0px 40% 0px", threshold: 0.01 }
     );
 
-    targets.forEach((el) => obs.observe(el));
+    targets.forEach((el) => {
+      if (inOrNearView(el)) {
+        el.classList.add("is-visible");
+        return;
+      }
+      el.classList.add("reveal");
+      obs.observe(el);
+    });
+
     return () => obs.disconnect();
   }, []);
 

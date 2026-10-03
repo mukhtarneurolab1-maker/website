@@ -1,9 +1,9 @@
-import { getServerSupabase } from "@/lib/supabase/server";
+import { getPublicSupabase } from "@/lib/supabase/public";
 import { seedAwards, seedGallery, seedPublications, seedResearch, seedResources } from "@/lib/seed";
 import type { Award, GalleryItem, Publication, ResearchItem, Resource } from "@/lib/types";
 
 async function publishedOrSeed<T>(table: string, seed: T[], order: string): Promise<T[]> {
-  const supabase = await getServerSupabase();
+  const supabase = getPublicSupabase();
   if (!supabase) return seed;
 
   const { data, error } = await supabase

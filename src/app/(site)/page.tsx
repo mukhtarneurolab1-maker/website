@@ -1,7 +1,10 @@
+import { Suspense } from "react";
 import { HomeFeatured } from "@/components/HomeFeatured";
 import { HomeResearch } from "@/components/HomeResearch";
 import { LabParticles } from "@/components/LabParticles";
 import { site } from "@/lib/site";
+
+export const revalidate = 60;
 
 export default function HomePage() {
   return (
@@ -9,7 +12,7 @@ export default function HomePage() {
 {/* 1. WHO */}
     <section className="hero lab-entry">
       <div className="hero-photo" aria-hidden="true">
-        <img src="/images/lab/picture-8.jpg" alt="" className="hero-photo-img" width="1600" height="1200" />
+        <img src="/images/lab/picture-8.jpg" alt="" className="hero-photo-img" width="1600" height="1200" fetchPriority="high" decoding="async" />
         <div className="hero-photo-tint"></div>
         <div className="hero-photo-vignette"></div>
       </div>
@@ -106,7 +109,9 @@ export default function HomePage() {
           <h2>Six questions, one coherent program</h2>
           <p className="section-lead">Ordered from fundamental development → tools & models → disease → translation.</p>
         </div>
-        <HomeResearch />
+        <Suspense fallback={<div className="research-grid" aria-hidden="true" />}>
+          <HomeResearch />
+        </Suspense>
         <p style={{marginTop: "1.75rem"}}><a href="/research" className="text-link">Read full research descriptions →</a></p>
       </div>
     </section>
@@ -119,7 +124,9 @@ export default function HomePage() {
           <h2>Published science that defines the questions</h2>
           <p className="section-lead">Flagship paper first, then the journals where the broader program appears.</p>
         </div>
-        <HomeFeatured />
+        <Suspense fallback={null}>
+          <HomeFeatured />
+        </Suspense>
       </div>
     </section>
 
