@@ -21,11 +21,11 @@ export function SiteFooter() {
               <p className="footer-tagline">{site.tagline}</p>
             </div>
           </div>
-          <p>
+          <p className="footer-meta">
             &copy; {year} Dr. Tanzila Mukhtar · Mukhtar Laboratory
           </p>
+          <p className="footer-meta">CIRI, University of Kashmir · Department of Neurosurgery, UCSF</p>
         </div>
-        <p>CIRI, University of Kashmir · Department of Neurosurgery, UCSF</p>
       </div>
       <p className="image-credit">
         Microscopy images from the Mukhtar Laboratory.

@@ -1472,6 +1472,15 @@ textarea {
   margin-top: 0.15rem;
 }
 
+.footer-meta {
+  margin: 0;
+  max-width: 34rem;
+}
+
+.footer-meta + .footer-meta {
+  margin-top: 0.35rem;
+}
+
 .image-credit {
   font-size: 0.64rem;
   line-height: 1.5;
@@ -2898,6 +2907,10 @@ textarea {
 
   .site-nav a::after {
     display: none;
+  }
+
+  .footer-meta {
+    padding-left: calc(52px + 1rem);
   }
 
   .hero h1 {
