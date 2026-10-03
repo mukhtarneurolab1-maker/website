@@ -1,15 +1,18 @@
-# Mukhtar Lab website (Next.js)
+# Mukhtar Lab
 
-Academic site for Dr. Tanzila Mukhtar / Mukhtar Laboratory.
+Professional academic website for the Mukhtar Laboratory.
+
+## Overview
+
+Public pages for research, publications, awards, team, gallery, resources, and contact, with a private admin area for content updates.
 
 ## Stack
 
-- Next.js 15 (App Router)
-- React 19 + TypeScript
-- Supabase for research, publications, awards, resources, and gallery
-- Resend for the contact form
+- Next.js (App Router) and TypeScript
+- Supabase for content and media
+- Resend for contact form delivery
 
-## Develop
+## Local development
 
 ```bash
 npm install
@@ -18,13 +21,27 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
-## Admin
+## Environment
 
-1. Create a Supabase project.
-2. Copy `.env.example` to `.env.local` and add the project URL and publishable key.
-3. In the Supabase SQL editor, run `supabase/schema.sql`, then `supabase/seed.sql`.
-   For an existing project that already ran the old schema, also run `supabase/migration-resources-gallery.sql`.
-4. Authentication → Users → add an email and password.
-5. Open [http://localhost:3000/admin](http://localhost:3000/admin).
+Create a local `.env.local` from `.env.example` and fill in the required values for your environment. Never commit `.env.local` or any secrets.
 
-Until a table has published rows, that section of the website keeps the built-in content.
+## Content and admin
+
+Database schema and seed files live under `supabase/`. After the database is configured and an admin user exists, sign in at `/admin` to manage published content.
+
+Until a content table has published rows, the site falls back to built-in seed content.
+
+## Scripts
+
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Start the development server |
+| `npm run build` | Production build |
+| `npm run start` | Run the production build locally |
+| `npm run lint` | Lint the project |
+
+Maintenance scripts under `scripts/` are for keep-alive, backup, and restore. They need the appropriate environment variables and should only be run in a trusted environment.
+
+## License
+
+Private project. All rights reserved.
