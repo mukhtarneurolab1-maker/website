@@ -35,9 +35,11 @@ export function withCurrentResearchImage<T extends { slug?: string; image_url?: 
 }
 
 export function withCurrentPublicationImage<T extends { title?: string; image_url?: string | null }>(row: T): T {
-  const seeded = row.title ? seedPublications.find((item) => item.title === row.title) : undefined;
-  if (!seeded?.image_url) return row;
-  return { ...row, image_url: seeded.image_url };
+  // Legacy lab stock paths are treated as the black placeholder in admin.
+  if (!row.image_url || row.image_url.startsWith("/images/lab/")) {
+    return { ...row, image_url: null };
+  }
+  return row;
 }
 
 export async function getResearch(): Promise<ResearchItem[]> {
@@ -49,19 +51,24 @@ export async function getResearch(): Promise<ResearchItem[]> {
 
 export async function getPublications(): Promise<Publication[]> {
   const rows = await publishedOrSeed<Publication>("publications", seedPublications, "sort_order");
-  if (rows === seedPublications) return rows;
+  if (rows === seedPublications) {
+    return rows.map((row) => ({ ...row, image_url: null }));
+  }
 
   const byTitle = new Set(rows.map((row) => row.title));
   const withLinks = rows.map((row) => {
     const seeded = seedPublications.find((item) => item.title === row.title);
-    if (!seeded) return row;
+    const image_url =
+      row.image_url && !row.image_url.startsWith("/images/lab/") ? row.image_url : null;
     return {
       ...row,
-      image_url: seeded.image_url,
-      doi_url: row.doi_url || seeded.doi_url,
+      image_url,
+      doi_url: row.doi_url || seeded?.doi_url || null,
     };
   });
-  const added = seedPublications.filter((item) => !byTitle.has(item.title));
+  const added = seedPublications
+    .filter((item) => !byTitle.has(item.title))
+    .map((item) => ({ ...item, image_url: null }));
   return [...withLinks, ...added];
 }
 

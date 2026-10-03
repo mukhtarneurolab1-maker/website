@@ -1,4 +1,5 @@
 import { ImageUpload } from "./ImageUpload";
+import { PublicationThumbnailField } from "./PublicationThumbnailField";
 import {
   deleteAward,
   deleteGalleryItem,
@@ -61,7 +62,7 @@ export function PublicationForm({ item }: { item?: Partial<Publication> }) {
       <label>Year<input name="year_label" defaultValue={item?.year_label || ""} /></label>
       <label>Note<input name="note" defaultValue={item?.note || ""} placeholder="In revision, Book chapter" /></label>
       <label>DOI URL<input name="doi_url" defaultValue={item?.doi_url || ""} /></label>
-      <ImageUpload name="image_url" label="Thumbnail" defaultValue={item?.image_url || ""} />
+      <PublicationThumbnailField defaultValue={item?.image_url || ""} />
       <label>
         Category
         <select name="category" defaultValue={item?.category || "first"}>

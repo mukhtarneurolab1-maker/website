@@ -1901,6 +1901,13 @@ textarea {
 
 .pub-thumb img {
   display: none;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pub-thumb--photo img {
+  display: block;
 }
 
 .pub-thumb--diagram {
@@ -1908,6 +1915,7 @@ textarea {
 }
 
 .pub-thumb--diagram img {
+  display: block;
   object-fit: contain;
   padding: 0.35rem;
   filter: none;
@@ -3281,6 +3289,30 @@ textarea {
   object-fit: cover;
   border-radius: 6px;
   margin-top: 0.5rem;
+}
+
+.admin-field-label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin-bottom: 0.5rem;
+}
+
+.admin-thumb-choices {
+  display: grid;
+  gap: 0.45rem;
+  margin-bottom: 0.75rem;
+}
+
+.admin-black-thumb {
+  width: 160px;
+  height: 110px;
+  border-radius: 6px;
+  background: #000;
+  border: 1px solid var(--line);
 }
 
 .admin-error {

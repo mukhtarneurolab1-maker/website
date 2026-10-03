@@ -7,27 +7,33 @@ export const metadata: Metadata = { title: "Publications" };
 function PubList({ items, chapter = false }: { items: Publication[]; chapter?: boolean }) {
   return (
     <ol className="pub-list">
-      {items.map((item) => (
-        <li className="pub-item" key={item.id}>
-          <div className="pub-thumb" aria-hidden="true" />
-          <div className="pub-body">
-            <p className="pub-authors">{item.authors}</p>
-            <p className="pub-title">{item.title}</p>
-            <p className="pub-meta">
-              {chapter ? "In: " : null}
-              <em>{item.venue}</em>
-              {item.year_label ? `, ${item.year_label}` : ""}
-              {item.note ? ` · ${item.note}` : ""}
-              {item.doi_url ? (
-                <>
-                  {" "}
-                  <a href={item.doi_url} target="_blank" rel="noopener">DOI</a>
-                </>
-              ) : null}
-            </p>
-          </div>
-        </li>
-      ))}
+      {items.map((item) => {
+        const customImage =
+          item.image_url && !item.image_url.startsWith("/images/lab/") ? item.image_url : null;
+        return (
+          <li className="pub-item" key={item.id}>
+            <div className={`pub-thumb${customImage ? " pub-thumb--photo" : ""}`} aria-hidden="true">
+              {customImage ? <img src={customImage} alt="" /> : null}
+            </div>
+            <div className="pub-body">
+              <p className="pub-authors">{item.authors}</p>
+              <p className="pub-title">{item.title}</p>
+              <p className="pub-meta">
+                {chapter ? "In: " : null}
+                <em>{item.venue}</em>
+                {item.year_label ? `, ${item.year_label}` : ""}
+                {item.note ? ` · ${item.note}` : ""}
+                {item.doi_url ? (
+                  <>
+                    {" "}
+                    <a href={item.doi_url} target="_blank" rel="noopener">DOI</a>
+                  </>
+                ) : null}
+              </p>
+            </div>
+          </li>
+        );
+      })}
     </ol>
   );
 }
