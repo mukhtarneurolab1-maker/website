@@ -1,6 +1,6 @@
 name: Monthly database backup
 
-# Saves a restorable snapshot into backups/YYYY-MM-DD and commits it on this repo.
+# Saves a restorable snapshot as a private GitHub Actions artifact (not committed to the repo).
 # Run manually and choose "restore" to put a snapshot back into Supabase.
 on:
   schedule:
@@ -17,11 +17,15 @@ on:
           - backup
           - restore
       backup_date:
-        description: Restore only. Folder date YYYY-MM-DD. Leave blank to use the latest backup.
+        description: Restore only. Folder date YYYY-MM-DD. Leave blank to use the latest backup folder in the downloaded artifact.
         required: false
         type: string
       confirm:
         description: Restore only. Type restore to replace the live tables with the backup.
+        required: false
+        type: string
+      backup_run_id:
+        description: Restore only. Optional Actions run id that produced the backup artifact. Leave blank to use the latest successful backup run.
         required: false
         type: string
 
@@ -31,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
-      contents: write
+      contents: read
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -44,17 +48,6 @@ jobs:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY || secrets.UPABASE_SERVICE_ROLE_KEY }}
         run: npm run backup
-      - name: Commit backup to the repository
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add backups
-          if git diff --cached --quiet; then
-            echo "Backup matches what is already on GitHub."
-          else
-            git commit -m "Add Supabase backup for $(date -u +%Y-%m-%d)"
-            git push
-          fi
       - uses: actions/upload-artifact@v4
         with:
           name: mukhtar-lab-backup-${{ github.run_id }}
@@ -67,6 +60,7 @@ jobs:
     timeout-minutes: 15
     permissions:
       contents: read
+      actions: read
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -74,6 +68,35 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: Download backup artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BACKUP_RUN_ID: ${{ inputs.backup_run_id }}
+        run: |
+          set -euo pipefail
+          mkdir -p backups
+          if [ -n "${BACKUP_RUN_ID}" ]; then
+            RUN_ID="${BACKUP_RUN_ID}"
+          else
+            RUN_ID=$(gh run list --workflow "Monthly database backup" --status success --limit 50 --json databaseId,displayTitle,event \
+              --jq '[.[] | select(.displayTitle | test("restore"; "i") | not)][0].databaseId // empty')
+          fi
+          if [ -z "${RUN_ID}" ]; then
+            echo "No successful backup run found."
+            exit 1
+          fi
+          echo "Downloading artifact from run ${RUN_ID}"
+          gh run download "${RUN_ID}" --dir /tmp/backup-artifact
+          find /tmp/backup-artifact -type f -name 'database.json' -print
+          cp -R /tmp/backup-artifact/. backups/ || true
+          # Flatten if artifact wrapped the backups folder
+          if [ ! -f backups/*/database.json ] 2>/dev/null; then
+            if ls /tmp/backup-artifact/*/database.json >/dev/null 2>&1; then
+              mkdir -p backups
+              cp -R /tmp/backup-artifact/* backups/
+            fi
+          fi
+          find backups -type f -name 'database.json'
       - name: Restore the backup into Supabase
         env:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}

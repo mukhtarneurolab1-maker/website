@@ -34,6 +34,9 @@ yarn-error.log*
 .env*
 !.env.example
 
+# local / CI database dumps (store as Actions artifacts, not in git)
+/backups/
+
 # vercel
 .vercel
 
