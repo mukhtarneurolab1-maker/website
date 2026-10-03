@@ -1,7 +1,10 @@
+import Image from "next/image";
 import type { Metadata } from "next";
 import { getResearch } from "@/lib/content";
 
 export const metadata: Metadata = { title: "Research" };
+
+export const revalidate = 60;
 
 export default async function ResearchPage() {
   const items = await getResearch();
@@ -22,7 +25,18 @@ export default async function ResearchPage() {
             <article className="research-block" id={item.slug} key={item.id}>
               <div className="research-block-layout">
                 <figure className={`research-block-visual${item.image_url?.includes("theme-rna") || item.image_url?.includes("theme-brain") ? " research-block-visual--contain" : ""}`}>
-                  {item.image_url ? <img src={item.image_url} alt="" /> : null}
+                  {item.image_url ? (
+                    <Image
+                      src={item.image_url}
+                      alt=""
+                      width={1000}
+                      height={800}
+                      sizes="(max-width: 1024px) 100vw, 560px"
+                      quality={85}
+                      priority={index === 0}
+                      unoptimized={item.image_url.endsWith(".svg")}
+                    />
+                  ) : null}
                   {item.image_caption ? <figcaption>{item.image_caption}</figcaption> : null}
                 </figure>
                 <div className="research-block-body">

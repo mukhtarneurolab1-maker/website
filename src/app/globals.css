@@ -1472,15 +1472,6 @@ textarea {
   margin-top: 0.15rem;
 }
 
-.footer-meta {
-  margin: 0;
-  max-width: 34rem;
-}
-
-.footer-meta + .footer-meta {
-  margin-top: 0.35rem;
-}
-
 .image-credit {
   font-size: 0.64rem;
   line-height: 1.5;
@@ -1919,6 +1910,19 @@ textarea {
   display: block;
 }
 
+.pub-thumb:not(.pub-thumb--photo),
+.admin-black-thumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.pub-thumb-arrow {
+  width: 80px;
+  height: 80px;
+}
+
 .pub-thumb--diagram {
   background: #0a1628;
 }
@@ -1978,6 +1982,11 @@ textarea {
   .pub-thumb {
     width: 100%;
     height: 160px;
+  }
+
+  .pub-thumb-arrow {
+    width: 110px;
+    height: 110px;
   }
 }
 
@@ -2909,8 +2918,15 @@ textarea {
     display: none;
   }
 
-  .footer-meta {
-    padding-left: calc(52px + 1rem);
+  .footer-inner {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-brand {
+    flex-direction: column;
+    gap: 0.6rem;
   }
 
   .hero h1 {

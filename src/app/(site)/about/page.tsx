@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -23,7 +24,7 @@ export default function Page() {
         </div>
         <div className="about-bio">
           <figure className="portrait-frame">
-            <img src="/images/tanzila-mukhtar.jpg" width="675" height="1200" alt="Portrait of Dr. Tanzila Mukhtar" />
+            <Image src="/images/tanzila-mukhtar.jpg" width="675" height="1200" sizes="(max-width: 720px) 100vw, 420px" priority alt="Portrait of Dr. Tanzila Mukhtar" />
             <figcaption className="portrait-caption">Dr. Tanzila Mukhtar · Principal Investigator</figcaption>
           </figure>
           <div className="prose">

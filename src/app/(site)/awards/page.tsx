@@ -3,6 +3,8 @@ import { getAwards } from "@/lib/content";
 
 export const metadata: Metadata = { title: "Awards" };
 
+export const revalidate = 60;
+
 export default async function AwardsPage() {
   const awards = await getAwards();
   const fellowships = awards.filter((item) => item.category === "fellowship").sort((a, b) => a.sort_order - b.sort_order);

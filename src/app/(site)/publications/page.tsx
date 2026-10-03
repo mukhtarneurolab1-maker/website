@@ -1,8 +1,11 @@
+import Image from "next/image";
 import type { Metadata } from "next";
 import { getPublications, publicationsByCategory } from "@/lib/content";
 import type { Publication } from "@/lib/types";
 
 export const metadata: Metadata = { title: "Publications" };
+
+export const revalidate = 60;
 
 function PubList({ items, chapter = false }: { items: Publication[]; chapter?: boolean }) {
   return (
@@ -13,7 +16,20 @@ function PubList({ items, chapter = false }: { items: Publication[]; chapter?: b
         return (
           <li className="pub-item" key={item.id}>
             <div className={`pub-thumb${customImage ? " pub-thumb--photo" : ""}`} aria-hidden="true">
-              {customImage ? <img src={customImage} alt="" /> : null}
+              {customImage ? (
+                <Image
+                  src={customImage}
+                  alt=""
+                  width={280}
+                  height={220}
+                  sizes="(max-width: 720px) 100vw, 140px"
+                  unoptimized={customImage.endsWith(".svg")}
+                />
+              ) : (
+                <svg className="pub-thumb-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+              )}
             </div>
             <div className="pub-body">
               <p className="pub-authors">{item.authors}</p>

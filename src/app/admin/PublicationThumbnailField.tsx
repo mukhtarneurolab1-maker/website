@@ -52,7 +52,11 @@ export function PublicationThumbnailField({
       {mode === "black" ? (
         <>
           <input type="hidden" name="image_url" value="" />
-          <div className="admin-black-thumb" aria-hidden="true" />
+          <div className="admin-black-thumb" aria-hidden="true">
+            <svg className="pub-thumb-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+          </div>
           <p className="admin-hint">New publications use the black thumbnail by default.</p>
         </>
       ) : (
