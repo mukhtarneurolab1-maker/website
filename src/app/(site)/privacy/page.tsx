@@ -42,7 +42,14 @@ export default function PrivacyPage() {
             <h2>How we use it</h2>
             <p>
               Only to read and reply to your message. We don&apos;t sell it, share it for marketing, or add you to a
-              mailing list.
+              mailing list. Messages are delivered to the lab&apos;s inbox by Resend, an email service, and the site
+              is hosted by Netlify.
+            </p>
+
+            <h2>Your rights</h2>
+            <p>
+              You can ask us to correct or delete anything you sent us by emailing{" "}
+              <a href={`mailto:${email}`}>{email}</a>.
             </p>
           </div>
         </div>

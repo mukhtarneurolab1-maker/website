@@ -3,8 +3,6 @@
    Light · Premium · Confocal science
    ========================================================================== */
 
-@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Sora:wght@300;400;500;600;700&display=swap");
-
 :root {
   /* Atmosphere aliases (legacy dark tokens kept for residual use) */
   --void: #0a1628;
@@ -36,8 +34,8 @@
   --cyan-dim: var(--teal);
 
   /* Typography */
-  --serif: "Fraunces", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
-  --sans: "Sora", "Avenir Next", "Segoe UI", sans-serif;
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --sans: "Avenir Next", "Segoe UI", sans-serif;
 
   /* Layout */
   --max: 1140px;
