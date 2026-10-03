@@ -1629,6 +1629,36 @@ textarea {
   margin-top: 0;
 }
 
+.legal h2 {
+  font-size: 1.3rem;
+  margin-top: 2.2rem;
+}
+
+.legal ul {
+  margin-top: 0.9rem;
+  list-style: disc;
+  padding-left: 1.2rem;
+  color: var(--ink-soft);
+  line-height: 1.8;
+}
+
+.legal li + li {
+  margin-top: 0.5rem;
+}
+
+.legal a,
+.form-hint a,
+.footer-legal {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.legal .legal-updated {
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+}
+
 /* ---------- Timeline ---------- */
 
 .timeline {

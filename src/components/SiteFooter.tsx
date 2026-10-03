@@ -22,7 +22,8 @@ export function SiteFooter() {
             </div>
           </div>
           <p>
-            &copy; {year} Dr. Tanzila Mukhtar · Mukhtar Laboratory
+            &copy; {year} Dr. Tanzila Mukhtar · Mukhtar Laboratory ·{" "}
+            <a className="footer-legal" href="/privacy">Privacy</a>
           </p>
         </div>
         <p>CIRI, University of Kashmir · Department of Neurosurgery, UCSF</p>

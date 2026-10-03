@@ -302,7 +302,9 @@ export function ContactForm() {
           <span className="btn-label">Send message</span>
           <span className="btn-spinner" aria-hidden="true" />
         </button>
-        <p className="form-hint">Sends your message to the lab inbox.</p>
+        <p className="form-hint">
+          We use your details only to reply to you. See our <a href="/privacy">Privacy notice</a>.
+        </p>
       </div>
 
       {formError && (
