@@ -1,0 +1,33 @@
+name: Clean unused photos
+
+# Uploaded photos that no item uses go to media/trash/<date>/ and are deleted
+# for good after 10 days. Runs on GitHub's free minutes, not Netlify credits.
+on:
+  schedule:
+    # Every day, 05:00 UTC (10:30 IST)
+    - cron: "0 5 * * *"
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: Actually move and delete. Leave off to only list what would happen.
+        type: boolean
+        default: false
+
+jobs:
+  clean:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Move unused photos to trash and empty old trash
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY || secrets.UPABASE_SERVICE_ROLE_KEY }}
+        run: npm run clean-media -- ${{ (github.event_name == 'schedule' || inputs.apply) && '--apply' || '' }}
