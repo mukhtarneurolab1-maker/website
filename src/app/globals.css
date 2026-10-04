@@ -1105,6 +1105,10 @@ textarea {
   content: none;
 }
 
+.rc-visual--photo img {
+  object-fit: cover;
+}
+
 .rc-blob {
   position: absolute;
   width: 140px;

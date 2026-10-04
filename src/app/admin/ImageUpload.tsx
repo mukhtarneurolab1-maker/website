@@ -3,6 +3,43 @@
 import { useState } from "react";
 import { getBrowserSupabase } from "@/lib/supabase/browser";
 
+const MAX_SIDE = 2000;
+const MAX_UPLOAD_BYTES = 5 * 1024 * 1024;
+
+/** Scale large photos down and re-encode them before upload, so storage holds a web-sized copy. */
+async function shrinkImage(file: File): Promise<File> {
+  if (!/^image\/(jpeg|png|webp|heic|heif|avif)$/.test(file.type)) return file;
+
+  let bitmap: ImageBitmap;
+  try {
+    bitmap = await createImageBitmap(file, { imageOrientation: "from-image" });
+  } catch {
+    return file;
+  }
+
+  const scale = Math.min(1, MAX_SIDE / Math.max(bitmap.width, bitmap.height));
+  if (scale === 1 && file.size < 500 * 1024) {
+    bitmap.close();
+    return file;
+  }
+
+  const canvas = document.createElement("canvas");
+  canvas.width = Math.round(bitmap.width * scale);
+  canvas.height = Math.round(bitmap.height * scale);
+  canvas.getContext("2d")?.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+  bitmap.close();
+
+  const encode = (type: string) =>
+    new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, type, 0.85));
+  let blob = await encode("image/webp");
+  if (!blob || blob.type !== "image/webp") blob = await encode("image/jpeg");
+  if (!blob || blob.size >= file.size) return file;
+
+  const ext = blob.type === "image/webp" ? "webp" : "jpg";
+  const base = file.name.replace(/\.[^.]+$/, "") || "image";
+  return new File([blob], `${base}.${ext}`, { type: blob.type });
+}
+
 export function ImageUpload({
   name,
   label,
@@ -19,24 +56,27 @@ export function ImageUpload({
   const [error, setError] = useState<string | null>(null);
 
   async function onFile(event: React.ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[0];
-    if (!file) return;
+    const picked = event.target.files?.[0];
+    if (!picked) return;
     const supabase = getBrowserSupabase();
     if (!supabase) {
       setError("Image storage needs Supabase keys in .env.local.");
       return;
     }
-    if (file.size > 5 * 1024 * 1024) {
-      setError("Please use an image under 5 MB.");
-      return;
-    }
 
     setBusy(true);
     setError(null);
+    const file = await shrinkImage(picked);
+    if (file.size > MAX_UPLOAD_BYTES) {
+      setBusy(false);
+      setError("This image is still over 5 MB after resizing. Please use a smaller file.");
+      return;
+    }
     const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
     const path = `${name}/${crypto.randomUUID()}.${ext}`;
     const { error: uploadError } = await supabase.storage.from("media").upload(path, file, {
       cacheControl: "31536000",
+      contentType: file.type || undefined,
       upsert: false,
     });
     setBusy(false);

@@ -3,8 +3,6 @@ import { getResources } from "@/lib/content";
 
 export const metadata: Metadata = { title: "Resources" };
 
-export const revalidate = 60;
-
 export default async function ResourcesPage() {
   const items = await getResources();
 

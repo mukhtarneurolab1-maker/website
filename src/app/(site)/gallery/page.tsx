@@ -6,8 +6,6 @@ export const metadata: Metadata = {
   title: "Gallery",
 };
 
-export const revalidate = 60;
-
 export default async function GalleryPage() {
   const items = await getGallery();
 

@@ -5,8 +5,6 @@ import type { Publication } from "@/lib/types";
 
 export const metadata: Metadata = { title: "Publications" };
 
-export const revalidate = 60;
-
 function PubList({ items, chapter = false }: { items: Publication[]; chapter?: boolean }) {
   return (
     <ol className="pub-list">

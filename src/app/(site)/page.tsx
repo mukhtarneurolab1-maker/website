@@ -4,8 +4,6 @@ import { HomeResearch } from "@/components/HomeResearch";
 import { LabParticles } from "@/components/LabParticles";
 import { site } from "@/lib/site";
 
-export const revalidate = 60;
-
 export default function HomePage() {
   return (
     <>
