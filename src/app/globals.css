@@ -1558,7 +1558,7 @@ textarea {
   content: "";
   position: absolute;
   inset: 0;
-  background: url("/images/lab/picture-8.jpg") center / cover no-repeat;
+  background: url("/images/web/page-hero-bg.webp") center / cover no-repeat;
   opacity: 0.14;
   filter: saturate(1.1) brightness(1.12);
   transform: scale(1.04);

@@ -35,7 +35,7 @@ export function SiteHeader() {
   return (
     <header className={`site-header${scrolled ? " is-scrolled" : ""}`} id="site-header">
       <div className="header-inner">
-        <Link className="wordmark" href="/">
+        <Link className="wordmark" href="/" prefetch={false}>
           <Image
             className="wordmark-logo"
             src="/images/mukhtar-lab-mark.jpg"
@@ -60,6 +60,7 @@ export function SiteHeader() {
               <li key={item.href}>
                 <Link
                   href={item.href}
+                  prefetch={false}
                   className={isCurrent(item.href) ? "is-active" : undefined}
                   aria-current={isCurrent(item.href) ? "page" : undefined}
                 >

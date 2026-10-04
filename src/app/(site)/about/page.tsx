@@ -24,7 +24,7 @@ export default function Page() {
         </div>
         <div className="about-bio">
           <figure className="portrait-frame">
-            <Image src="/images/tanzila-mukhtar.jpg" width="675" height="1200" sizes="(max-width: 720px) 100vw, 420px" priority alt="Portrait of Dr. Tanzila Mukhtar" />
+            <Image src="/images/tanzila-mukhtar.jpg" width="675" height="1200" sizes="(max-width: 1024px) 320px, 420px" priority alt="Portrait of Dr. Tanzila Mukhtar" />
             <figcaption className="portrait-caption">Dr. Tanzila Mukhtar · Principal Investigator</figcaption>
           </figure>
           <div className="prose">

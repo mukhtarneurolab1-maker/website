@@ -2,6 +2,7 @@ import Image from "next/image";
 import type { Metadata } from "next";
 import { getPublications, publicationsByCategory } from "@/lib/content";
 import type { Publication } from "@/lib/types";
+import { PHONE_3X } from "@/lib/image-sizes";
 
 export const metadata: Metadata = { title: "Publications" };
 
@@ -20,7 +21,7 @@ function PubList({ items, chapter = false }: { items: Publication[]; chapter?: b
                   alt=""
                   width={280}
                   height={220}
-                  sizes="(max-width: 720px) 100vw, 140px"
+                  sizes={`${PHONE_3X}, (max-width: 720px) 100vw, 140px`}
                   unoptimized={customImage.endsWith(".svg")}
                 />
               ) : (

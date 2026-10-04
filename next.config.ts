@@ -8,6 +8,8 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   images: {
+    // Originals and admin uploads are at most 1600px wide, so larger variants add nothing.
+    deviceSizes: [640, 750, 828, 1080, 1200, 1600],
     remotePatterns: supabaseHost
       ? [
           {

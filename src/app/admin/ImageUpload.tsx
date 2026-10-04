@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { getBrowserSupabase } from "@/lib/supabase/browser";
 
-const MAX_SIDE = 2000;
+const MAX_SIDE = 1600;
 const MAX_UPLOAD_BYTES = 5 * 1024 * 1024;
 
 /** Scale large photos down and re-encode them before upload, so storage holds a web-sized copy. */

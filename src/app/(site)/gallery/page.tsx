@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { Metadata } from "next";
 import { getGallery } from "@/lib/content";
+import { PHONE_3X } from "@/lib/image-sizes";
 
 export const metadata: Metadata = {
   title: "Gallery",
@@ -34,7 +35,7 @@ export default async function GalleryPage() {
                     alt={item.alt || item.caption}
                     width={800}
                     height={600}
-                    sizes="(max-width: 720px) 100vw, (max-width: 900px) 50vw, 400px"
+                    sizes={`${PHONE_3X}, (max-width: 720px) 100vw, (max-width: 900px) 50vw, 400px`}
                     quality={85}
                     priority={index < 3}
                     unoptimized={item.image_url.endsWith(".svg")}

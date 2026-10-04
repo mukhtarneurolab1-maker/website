@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { Metadata } from "next";
 import { getResearch } from "@/lib/content";
+import { PHONE_3X } from "@/lib/image-sizes";
 
 export const metadata: Metadata = { title: "Research" };
 
@@ -29,7 +30,7 @@ export default async function ResearchPage() {
                       alt=""
                       width={1000}
                       height={800}
-                      sizes="(max-width: 1024px) 100vw, 560px"
+                      sizes={`${PHONE_3X}, (max-width: 1024px) 100vw, 560px`}
                       quality={85}
                       priority={index === 0}
                       unoptimized={item.image_url.endsWith(".svg")}

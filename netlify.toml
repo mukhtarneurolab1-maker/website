@@ -1,0 +1,109 @@
+# Only headers and redirects live here; build settings stay in the Netlify UI.
+
+# Static images in public/: let browsers keep them for 30 days instead of re-checking on every visit.
+# Replacing a file under the same name can show the old copy to returning visitors for up to 30 days,
+# so give changed images a new file name.
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+
+# Resized copies made by next/image (local images and admin uploads, which get unique names).
+[[headers]]
+  for = "/_next/image"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+
+[[headers]]
+  for = "/.netlify/images"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+
+[[headers]]
+  for = "/favicon.ico"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/robots.txt"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/sitemap.xml"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+# Common bot probes for WordPress, PHP and secret files: answer with a tiny static 404
+# so they never wake the Next.js server function.
+[[redirects]]
+  from = "/wp-admin/*"
+  to = "/not-found.txt"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/wp-content/*"
+  to = "/not-found.txt"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/wp-includes/*"
+  to = "/not-found.txt"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/wordpress/*"
+  to = "/not-found.txt"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/wp-login.php"
+  to = "/not-found.txt"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/xmlrpc.php"
+  to = "/not-found.txt"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/.env"
+  to = "/not-found.txt"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/.env.local"
+  to = "/not-found.txt"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/.env.production"
+  to = "/not-found.txt"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/.git/*"
+  to = "/not-found.txt"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/phpmyadmin/*"
+  to = "/not-found.txt"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/cgi-bin/*"
+  to = "/not-found.txt"
+  status = 404
+  force = true

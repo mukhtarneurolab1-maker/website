@@ -10,7 +10,7 @@ export default function HomePage() {
 {/* 1. WHO */}
     <section className="hero lab-entry">
       <div className="hero-photo" aria-hidden="true">
-        <img src="/images/lab/picture-8.jpg" alt="" className="hero-photo-img" width="1600" height="1200" fetchPriority="high" decoding="async" />
+        <img src="/images/web/hero-1600.webp" alt="" className="hero-photo-img" width="1600" height="1118" fetchPriority="high" decoding="async" />
         <div className="hero-photo-tint"></div>
         <div className="hero-photo-vignette"></div>
       </div>
@@ -31,7 +31,10 @@ export default function HomePage() {
         <div className="scope-eye" aria-hidden="true">
           <div className="scope-eye-ring"></div>
           <div className="scope-eye-glass">
-            <img src="/images/lab/gw17-neurons.jpg" alt="" />
+            <picture>
+              <source media="(max-width: 720px)" srcSet="/images/web/scope-neurons-560.webp" />
+              <img src="/images/web/scope-neurons-800.webp" alt="" width="1071" height="800" decoding="async" />
+            </picture>
           </div>
           <div className="scope-hud">
             <span>Primary</span>
@@ -54,7 +57,7 @@ export default function HomePage() {
         <div className="intro-grid">
           <div className="intro-visual">
             <div className="scope-frame scope-frame--photo">
-              <img src="/images/tanzila-mukhtar.jpg" alt="Dr. Tanzila Mukhtar" className="scope-photo" width="675" height="1200" style={{aspectRatio: "4 / 5", objectPosition: "center top"}} />
+              <img src="/images/web/portrait-675.webp" alt="Dr. Tanzila Mukhtar" className="scope-photo" width="675" height="1200" loading="lazy" decoding="async" style={{aspectRatio: "4 / 5", objectPosition: "center top"}} />
               <p className="scope-caption">Principal Investigator · Mukhtar Laboratory</p>
             </div>
           </div>
@@ -162,7 +165,10 @@ export default function HomePage() {
     {/* 7. VISION */}
     <section className="quote-banner quote-banner--photo">
       <div className="quote-field" aria-hidden="true">
-        <img src="/images/lab/picture-7.jpg" alt="" />
+        <picture>
+          <source media="(max-width: 720px)" srcSet="/images/web/quote-800.webp" />
+          <img src="/images/web/quote-1600.webp" alt="" width="1600" height="1694" loading="lazy" decoding="async" />
+        </picture>
       </div>
       <div className="wrap">
         <blockquote>
